@@ -70,7 +70,7 @@ class CommonResponseResult(object):
         if None != resp:
             try:
                 self._status_code = resp.code
-                self._request_id = resp.headers['x-tordatahub-request-id']
+                self._request_id = resp.headers['x-datahub-request-id']
                 content = json.loads(resp.body)
                 self._error_code = content['ErrorCode']
                 self._error_msg = content['ErrorMessage']
@@ -96,7 +96,7 @@ class CommonResponseResult(object):
     def parse(resp):
         try:
             self._status_code = resp.status_code
-            self._request_id = resp.headers['x-tordatahub-request-id']
+            self._request_id = resp.headers['x-datahub-request-id']
             content = json.loads(resp.content)
             self._error_code = content['ErrorCode']
             self._error_msg = content['ErrorMessage']
@@ -253,7 +253,7 @@ class RestClient(object):
         # Construct user agent without handling the letter case.
         headers = kwargs.get('headers', {})
         headers = dict((k, str(v)) for k, v in six.iteritems(headers))
-        headers['x-tordatahub-client-version'] = __datahub_client_version__
+        headers['x-datahub-client-version'] = __datahub_client_version__
         headers[Headers.USER_AGENT] = self._user_agent
         headers[Headers.CONTENT_TYPE] = 'application/json'
         headers[Headers.DATE] = gen_rfc822_date()

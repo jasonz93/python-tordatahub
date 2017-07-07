@@ -78,7 +78,7 @@ class AliyunAccount(Account):
         headers = req.headers
         for k, v in six.iteritems(headers):
             k = k.lower()
-            if k.startswith('x-tordatahub-'):
+            if k.startswith('x-datahub-'):
                 headers_to_sign[k] = v
 
         # url params
@@ -87,7 +87,7 @@ class AliyunAccount(Account):
                                  key=lambda it: it[0])
             params = dict(params_list)
             for k, v in params:
-                if key.startswith('x-tordatahub-'):
+                if key.startswith('x-datahub-'):
                     headers_to_sign[k] = v
 
         headers_to_sign = OrderedDict([(k, headers_to_sign[k])
