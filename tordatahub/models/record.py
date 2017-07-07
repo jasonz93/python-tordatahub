@@ -627,7 +627,7 @@ class Records(RestModel):
                 raise ValueError('cursor must be set')
             data['Cursor'] = self._next_cursor
             data['Limit'] = self._limit_num
-        ret['data'] = json.dumps(data)
+        ret['body'] = json.dumps(data)
         return ret
 
     def decode(self, method, resp):

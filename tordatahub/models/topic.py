@@ -150,7 +150,7 @@ class Topic(RestModel):
                 "Lifecycle": self._life_cycle,
                 "Comment": "%s" % self._comment
             }
-            ret["data"] = json.dumps(data)
+            ret["body"] = json.dumps(data)
 
         return ret
 

@@ -147,7 +147,7 @@ class Cursor(RestModel):
             else:
                 raise ValueError('%s cursor not support' % self._type)
 
-            ret['data'] = json.dumps(data)
+            ret['body'] = json.dumps(data)
 
         return ret
 

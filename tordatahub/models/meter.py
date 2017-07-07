@@ -126,7 +126,7 @@ class MeteringInfo(RestModel):
         if HTTPMethod.POST == method:
             data = {}
             data['Action'] = 'meter'
-            ret['data'] = json.dumps(data)
+            ret['body'] = json.dumps(data)
 
         return ret
 

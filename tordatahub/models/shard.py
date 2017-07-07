@@ -244,7 +244,7 @@ class Shards(RestModel):
                 data['Action'] = 'merge'
                 data['ShardId'] = self.__shard_id
                 data['AdjacentShardId'] = self.__adj_shard_id
-                ret['data'] = json.dumps(data)
+                ret['body'] = json.dumps(data)
             elif ShardAction.SPLIT == self.__action:
                 if not self.__split_shard_id or not self.__split_key:
                     raise ValueError('split shard action must provide shard id and split key')
@@ -252,7 +252,7 @@ class Shards(RestModel):
                 data['Action'] = 'split'
                 data['ShardId'] = self.__split_shard_id
                 data['SplitKey'] = self.__split_key
-                ret['data'] = json.dumps(data)
+                ret['body'] = json.dumps(data)
 
         return ret
 
