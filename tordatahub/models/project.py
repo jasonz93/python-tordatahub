@@ -118,6 +118,6 @@ class Projects(RestModel):
 
     def decode(self, method, resp):
         if HTTPMethod.GET == method:
-            content = json.loads(resp.content)
+            content = json.loads(resp.body)
             for project_name in content['ProjectNames']:
                 self.append(project_name)

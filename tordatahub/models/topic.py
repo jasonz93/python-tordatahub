@@ -156,7 +156,7 @@ class Topic(RestModel):
 
     def decode(self, method, resp):
         if HTTPMethod.GET == method:
-            content = json.loads(resp.content)
+            content = json.loads(resp.body)
             self._shard_count = content['ShardCount']
             self._life_cycle = content['Lifecycle']
             self._record_type = content['RecordType']

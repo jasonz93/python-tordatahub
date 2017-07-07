@@ -97,7 +97,7 @@ class CommonResponseResult(object):
         try:
             self._status_code = resp.status_code
             self._request_id = resp.headers['x-datahub-request-id']
-            content = json.loads(resp.content)
+            content = json.loads(resp.body)
             self._error_code = content['ErrorCode']
             self._error_msg = content['ErrorMessage']
         except Exception as e:
