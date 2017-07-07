@@ -31,7 +31,7 @@ class Account(object):
     """
     Base Account Class.
 
-    .. seealso:: :class:`datahub.auth.AliyunAccount`
+    .. seealso:: :class:`tordatahub.auth.AliyunAccount`
     """
     def __init__(self, *args, **kwds):
         pass

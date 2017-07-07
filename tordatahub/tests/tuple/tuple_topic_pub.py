@@ -20,17 +20,17 @@
 import sys
 import traceback
 
-from datahub import DataHub
-from datahub.utils import Configer
-from datahub.models import Topic, RecordType, FieldType, RecordSchema, TupleRecord, CursorType
-from datahub.errors import DatahubException, ObjectAlreadyExistException
+from tordatahub import DataHub
+from tordatahub.utils import Configer
+from tordatahub.models import Topic, RecordType, FieldType, RecordSchema, TupleRecord, CursorType
+from tordatahub.errors import DatahubException, ObjectAlreadyExistException
 
-configer = Configer('datahub.ini')
-access_id = configer.get('datahub', 'access_id', '')
-access_key = configer.get('datahub', 'access_key', '')
-endpoint = configer.get('datahub', 'endpoint', '')
-project_name = configer.get('datahub', 'project_name', 'pydatahub_project_test')
-topic_name = configer.get('datahub', 'topic_name', 'keyword_topic_test')
+configer = Configer('../tordatahub.ini')
+access_id = configer.get('tordatahub', 'access_id', '')
+access_key = configer.get('tordatahub', 'access_key', '')
+endpoint = configer.get('tordatahub', 'endpoint', '')
+project_name = configer.get('tordatahub', 'project_name', 'pydatahub_project_test')
+topic_name = configer.get('tordatahub', 'topic_name', 'pydatahub_tuple_topic_test')
 
 print "======================================="
 print "access_id: %s" % access_id
@@ -51,7 +51,7 @@ topic.project_name = project_name
 topic.shard_count = 3
 topic.life_cycle = 7
 topic.record_type = RecordType.TUPLE
-topic.record_schema = RecordSchema.from_lists(['bigint_field', 'string_field', 'double_field', 'bool_field', 'EVENT_TIME1'], [FieldType.BIGINT, FieldType.STRING, FieldType.DOUBLE, FieldType.BOOLEAN, FieldType.TIMESTAMP])
+topic.record_schema = RecordSchema.from_lists(['bigint_field', 'string_field', 'double_field', 'bool_field', 'time_field'], [FieldType.BIGINT, FieldType.STRING, FieldType.DOUBLE, FieldType.BOOLEAN, FieldType.TIMESTAMP])
 
 try:
     dh.create_topic(topic)
@@ -66,8 +66,11 @@ except Exception, e:
 
 try:
     # block等待所有shard状态ready
-    dh.wait_shards_ready(project_name, topic_name)
-    print "shards all ready!!!"
+    if dh.wait_shards_ready(project_name, topic_name):
+        print "shards all ready!!!"
+    else:
+        print "some shards not ready!!!"
+        sys.exit(-1)
     print "=======================================\n\n"
 
     topic = dh.get_topic(topic_name, project_name)
@@ -94,9 +97,8 @@ try:
     record1['string_field'] = 'yc2'
     record1['double_field'] = 10.02
     record1['bool_field'] = False
-    record1['event_time1'] = 1455869335000011
+    record1['time_field'] = 1455869335000011
     record1.shard_id = shards[1].shard_id
-    records.append(record1)
     records.append(record1)
     
     record2 = TupleRecord(schema=topic.record_schema)
@@ -104,22 +106,14 @@ try:
     record2['string_field'] = 'yc3'
     record2['double_field'] = 10.03
     record2['bool_field'] = False
-    record2['event_time1'] = 1455869335000013
+    record2['time_field'] = 1455869335000013
     record2.shard_id = shards[2].shard_id
-    records.append(record2)
-    records.append(record2)
-    records.append(record2)
-    records.append(record2)
-    records.append(record2)
     records.append(record2)
 
     failed_indexs = dh.put_records(project_name, topic_name, records)
     print "put tuple %d records, failed list: %s" %(len(records), failed_indexs)
     # failed_indexs如果非空最好对failed record再进行重试
     print "=======================================\n\n"
-
-    failed_indexs = dh.put_records(project_name, topic_name, records)
-    print "put tuple %d records, failed list: %s" %(len(records), failed_indexs)
 
 except DatahubException, e:
     print traceback.format_exc()

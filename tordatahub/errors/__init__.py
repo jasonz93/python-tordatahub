@@ -19,7 +19,7 @@
 
 class DatahubException(Exception):
     """
-    There was an base exception class that occurred while handling your request to datahub server.
+    There was an base exception class that occurred while handling your request to tordatahub server.
     """
     def __init__(self, status_code, request_id, error_code, error_msg):
         super(DatahubException, self).__init__(error_msg)

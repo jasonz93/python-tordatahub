@@ -18,20 +18,19 @@
 # under the License.
 
 import sys
-import time
 import traceback
 
-from datahub import DataHub
-from datahub.utils import Configer
-from datahub.models import Topic, RecordType, FieldType, RecordSchema, BlobRecord, CursorType
-from datahub.errors import DatahubException, ObjectAlreadyExistException
+from tordatahub import DataHub
+from tordatahub.utils import Configer
+from tordatahub.models import Topic, RecordType, FieldType, RecordSchema, BlobRecord, CursorType
+from tordatahub.errors import DatahubException, ObjectAlreadyExistException
 
-configer = Configer('../datahub.ini')
-access_id = configer.get('datahub', 'access_id', '')
-access_key = configer.get('datahub', 'access_key', '')
-endpoint = configer.get('datahub', 'endpoint', '')
-project_name = configer.get('datahub', 'project_name', 'pydatahub_project_test')
-topic_name = configer.get('datahub', 'topic_name', 'pydatahub_blob_topic_test')
+configer = Configer('../tordatahub.ini')
+access_id = configer.get('tordatahub', 'access_id', '')
+access_key = configer.get('tordatahub', 'access_key', '')
+endpoint = configer.get('tordatahub', 'endpoint', '')
+project_name = configer.get('tordatahub', 'project_name', 'pydatahub_project_test')
+topic_name = configer.get('tordatahub', 'topic_name', 'pydatahub_blob_topic_test')
 
 print "======================================="
 print "access_id: %s" % access_id
@@ -65,6 +64,14 @@ except Exception, e:
     sys.exit(-1)
 
 try:
+    # block等待所有shard状态ready
+    if dh.wait_shards_ready(project_name, topic_name):
+        print "shards all ready!!!"
+    else:
+        print "some shards not ready!!!"
+        sys.exit(-1)
+    print "=======================================\n\n"
+
     topic = dh.get_topic(topic_name, project_name)
     print "get topic suc! topic=%s" % str(topic)
     if topic.record_type != RecordType.BLOB:
@@ -72,19 +79,34 @@ try:
         sys.exit(-1)
     print "=======================================\n\n"
 
-    cursor = dh.get_cursor(project_name, topic_name, CursorType.OLDEST, '0')
-    index = 0
-    while True:
-        (record_list, record_num, next_cursor) = dh.get_records(topic, '0', cursor, 3)
-        for record in record_list:
-            with open('0_%d.png' % index, 'wb') as f:
-                f.write(record.blobdata)
-                print "create 0_%d.png suc" % index
-            index+=1
-        if 0 == record_num:
-            time.sleep(1)
-        cursor = next_cursor
+    shards = dh.list_shards(project_name, topic_name)
+    for shard in shards:
+        print shard
+    print "=======================================\n\n"
 
+    records = []
+    
+    data = None
+    with open('tordatahub.png', 'rb') as f:
+        data = f.read()
+    
+    record0 = BlobRecord(blobdata=data)
+    record0.shard_id = '0'
+    records.append(record0)
+    
+    record1 = BlobRecord(blobdata=data)
+    record1.shard_id = '1'
+    records.append(record1)
+    
+    record2 = BlobRecord(blobdata=data)
+    record2.shard_id = '2'
+    records.append(record2)
+    
+    failed_indexs = dh.put_records(project_name, topic_name, records)
+    print "put blob %d records, failed list: %s" %(len(records), failed_indexs)
+    # failed_indexs如果非空最好对failed record再进行重试
+    print "=======================================\n\n"
+    
 except DatahubException, e:
     print traceback.format_exc()
     sys.exit(-1)

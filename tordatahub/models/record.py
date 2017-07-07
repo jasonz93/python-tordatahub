@@ -30,7 +30,7 @@ from .. import errors
 
 class FieldType(object):
     """
-    Field Types, datahub support 5 types of field, there are: ``BIGINT``, ``STRING``, ``BOOLEAN``, ``TIMESTAMP``, ``DOUBLE``
+    Field Types, tordatahub support 5 types of field, there are: ``BIGINT``, ``STRING``, ``BOOLEAN``, ``TIMESTAMP``, ``DOUBLE``
     """
     BIGINT = 'bigint'
     STRING = 'string'
@@ -56,7 +56,7 @@ class Schema(object):
     """
     Base Schema class
 
-    .. seealso:: :class:`datahub.models.RecordSchema`
+    .. seealso:: :class:`tordatahub.models.RecordSchema`
     """
     def __init__(self, names, types):
         self._init(names, types)

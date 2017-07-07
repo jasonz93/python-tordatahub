@@ -65,7 +65,7 @@ author = u'andy.xs'
 # built documents.
 #
 # The short X.Y version.
-from datahub import __version__
+from tordatahub import __version__
 version = __version__
 # The full version, including alpha/beta/rc tags.
 release = __version__

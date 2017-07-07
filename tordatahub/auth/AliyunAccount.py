@@ -33,7 +33,7 @@ from .core import Account, AccountType
 
 class AliyunAccount(Account):
     """
-    Aliyun account implement base from :class:`datahub.auth.Account`
+    Aliyun account implement base from :class:`tordatahub.auth.Account`
     """
 
     __slots__ = '_access_id', '_access_key'
@@ -78,7 +78,7 @@ class AliyunAccount(Account):
         headers = req.headers
         for k, v in six.iteritems(headers):
             k = k.lower()
-            if k.startswith('x-datahub-'):
+            if k.startswith('x-tordatahub-'):
                 headers_to_sign[k] = v
 
         # url params
@@ -87,7 +87,7 @@ class AliyunAccount(Account):
                                  key=lambda it: it[0])
             params = dict(params_list)
             for k, v in params:
-                if key.startswith('x-datahub-'):
+                if key.startswith('x-tordatahub-'):
                     headers_to_sign[k] = v
 
         headers_to_sign = OrderedDict([(k, headers_to_sign[k])
@@ -105,7 +105,7 @@ class AliyunAccount(Account):
         Generator signature for request.
 
         :param req: request object
-        :param endpoint: datahub server endpoint
+        :param endpoint: tordatahub server endpoint
         :return: none
         """
         url = req.url[len(endpoint):]

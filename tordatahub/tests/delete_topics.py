@@ -20,17 +20,17 @@
 import sys
 import traceback
 
-from datahub import DataHub
-from datahub.utils import Configer
-from datahub.models import Topic, RecordType, FieldType, RecordSchema, TupleRecord, CursorType
-from datahub.errors import DatahubException, ObjectAlreadyExistException
+from tordatahub import DataHub
+from tordatahub.utils import Configer
+from tordatahub.models import Project, Topic, RecordType, FieldType, RecordSchema, TupleRecord, CursorType
+from tordatahub.errors import DatahubException, ObjectAlreadyExistException
 
-configer = Configer('datahub.ini')
-access_id = configer.get('datahub', 'access_id', '')
-access_key = configer.get('datahub', 'access_key', '')
-endpoint = configer.get('datahub', 'endpoint', '')
-project_name = configer.get('datahub', 'project_name', 'pydatahub_project_test')
-topic_name = configer.get('datahub', 'topic_name', 'pydatahub_tuple_topic_test')
+configer = Configer('tordatahub.ini')
+access_id = configer.get('tordatahub', 'access_id', '')
+access_key = configer.get('tordatahub', 'access_key', '')
+endpoint = configer.get('tordatahub', 'endpoint', '')
+project_name = configer.get('tordatahub', 'project_name', 'meter_project_test')
+topic_name = configer.get('tordatahub', 'topic_name', 'meter_topic_test')
 
 print "======================================="
 print "access_id: %s" % access_id
@@ -47,11 +47,17 @@ if not access_id or not access_key or not endpoint:
 dh = DataHub(access_id, access_key, endpoint)
 
 try:
-    shards = dh.merge_shard(project_name, topic_name, '1', '2')
-    for shard in shards:
-        print shard
-    print "=======================================\n\n"
+    for pi in range(1,10):
+        project_name = "meter_project_test_%d" % pi
+        for ti in range(1,100):
+            topic_name = "meter_topic_test_%d_%d" %(pi, ti)
+            try:
+                dh.delete_topic(topic_name, project_name)
+                print "delete topic %s success!" % topic_name
+            except Exception, e:
+                print "delete %s failed!" % topic_name
+                print traceback.format_exc()
+            print "=======================================\n\n"
 except Exception, e:
     print traceback.format_exc()
     sys.exit(-1)
-

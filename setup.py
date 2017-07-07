@@ -38,7 +38,7 @@ if PY2 and version[:2] < (2, 6):
     raise Exception('Datahub Python SDK supports Python 2.6+ (including Python 3+).')
 
 version_ns = {}
-execfile(os.path.join(repo_root, 'datahub', 'version.py'), version_ns)
+execfile(os.path.join(repo_root, 'tordatahub', 'version.py'), version_ns)
 
 requirements = []
 with open('requirements.txt') as f:
@@ -55,12 +55,12 @@ if os.path.exists('README.rst'):
 setuptools.setup(
     name='tordatahub',
     version=version_ns['__version__'],
-    keywords='pydatahub, python, aliyun, datahub, sdk',
+    keywords='pydatahub, python, aliyun, tordatahub, sdk',
     description='Datahub Python SDK',
     long_description=long_description,
     author='andy.xs',
     author_email='helloworld.xs@foxmail.com',
-    url='https://github.com/aliyun/aliyun-datahub-sdk-python',
+    url='https://github.com/aliyun/aliyun-tordatahub-sdk-python',
     packages=setuptools.find_packages(exclude=('unittest')),
     install_requires=requirements,
     license='Apache License 2.0'

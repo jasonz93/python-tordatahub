@@ -21,17 +21,17 @@ import sys
 import time
 import traceback
 
-from datahub import DataHub
-from datahub.utils import Configer
-from datahub.models import Topic, RecordType, FieldType, RecordSchema, TupleRecord, CursorType
-from datahub.errors import DatahubException, ObjectAlreadyExistException
+from tordatahub import DataHub
+from tordatahub.utils import Configer
+from tordatahub.models import Topic, RecordType, FieldType, RecordSchema, TupleRecord, CursorType
+from tordatahub.errors import DatahubException, ObjectAlreadyExistException
 
-configer = Configer('../datahub.ini')
-access_id = configer.get('datahub', 'access_id', '')
-access_key = configer.get('datahub', 'access_key', '')
-endpoint = configer.get('datahub', 'endpoint', '')
-project_name = configer.get('datahub', 'project_name', 'pydatahub_project_test')
-topic_name = configer.get('datahub', 'topic_name', 'pydatahub_tuple_topic_test')
+configer = Configer('../tordatahub.ini')
+access_id = configer.get('tordatahub', 'access_id', '')
+access_key = configer.get('tordatahub', 'access_key', '')
+endpoint = configer.get('tordatahub', 'endpoint', '')
+project_name = configer.get('tordatahub', 'project_name', 'pydatahub_project_test')
+topic_name = configer.get('tordatahub', 'topic_name', 'pydatahub_tuple_topic_test')
 
 print "======================================="
 print "access_id: %s" % access_id

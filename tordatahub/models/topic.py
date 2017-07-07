@@ -42,7 +42,7 @@ class Topic(RestModel):
     >>>
     >>> topic.record_schema = RecordSchema.from_lists(['bigint_field', 'string_field', 'double_field', 'bool_field', 'time_field'], [FieldType.BIGINT, FieldType.STRING, FieldType.DOUBLE, FieldType.BOOLEAN, FieldType.TIMESTAMP])
 
-    .. seealso:: :class:`datahub.models.RecordSchema`, :class:`datahub.models.RecordType`, :class:`datahub.models.FieldType`
+    .. seealso:: :class:`tordatahub.models.RecordSchema`, :class:`tordatahub.models.RecordType`, :class:`tordatahub.models.FieldType`
     """
     __slots__ = ('_project_name', '_shard_count', '_life_cycle', '_record_type', '_record_schema')
 

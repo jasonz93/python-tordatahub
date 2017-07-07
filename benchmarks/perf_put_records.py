@@ -22,9 +22,9 @@ import sys
 import time
 import argparse
 
-from datahub import DataHub
-from datahub.models import Topic, RecordSchema, TupleRecord, RecordType, Project, Field, FieldType
-from datahub.errors import DatahubException, ObjectAlreadyExistException
+from tordatahub import DataHub
+from tordatahub.models import Topic, RecordSchema, TupleRecord, RecordType, Project, Field, FieldType
+from tordatahub.errors import DatahubException, ObjectAlreadyExistException
 
 class Timer(object):
     def __init__(self, verbose=False):
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('access_id', help='account access id')
     parser.add_argument('access_key', help='account access key')
-    parser.add_argument('endpoint', help='datahub server endpoint')
+    parser.add_argument('endpoint', help='tordatahub server endpoint')
     parser.add_argument('--file', help='record file')
     parser.add_argument('--batch', help='batch record num', type=int, default=100)
     parser.add_argument('--round', help='round num', type=int, default=10000)

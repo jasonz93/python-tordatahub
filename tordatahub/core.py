@@ -45,7 +45,7 @@ class DataHub(object):
     Main entrance to DataHub.
 
     Convenient operations on DataHub objects are provided.
-    Please refer to `DataHub docs <https://datahub.console.aliyun.com/intro/index.html>`_
+    Please refer to `DataHub docs <https://tordatahub.console.aliyun.com/intro/index.html>`_
     to see the details.
 
     Generally, basic operations such as ``create``, ``list``, ``delete``, ``update`` are provided for each DataHub object.
@@ -59,9 +59,9 @@ class DataHub(object):
 
     :Example:
 
-    >>> datahub = DataHub('**your access id**', '**your access key**', '**endpoint**')
+    >>> tordatahub = DataHub('**your access id**', '**your access key**', '**endpoint**')
     >>>
-    >>> project = datahub.get_project('datahub_test')
+    >>> project = tordatahub.get_project('datahub_test')
     >>>
     >>> print project is None
     >>>
@@ -81,10 +81,10 @@ class DataHub(object):
         """
         List all projects
 
-        :return: projects in datahub server
+        :return: projects in tordatahub server
         :rtype: generator
 
-        .. seealso:: :class:`datahub.models.Projects`
+        .. seealso:: :class:`tordatahub.models.Projects`
         """
         projects = Projects()
         yield self.restclient.get(restmodel=projects)
@@ -98,9 +98,9 @@ class DataHub(object):
         :param name: project name
         :return: the right project
         :rtype: :class:`datahub.models.Project`
-        :raise: :class:`datahub.errors.NoSuchObjectException` if not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if not exists
 
-        .. seealso:: :class:`datahub.models.Project`
+        .. seealso:: :class:`tordatahub.models.Project`
         """
         if not name:
             raise InvalidArgument('project name is empty')
@@ -116,9 +116,9 @@ class DataHub(object):
         :param project_name: project name
         :return: all topics of the project
         :rtype: generator
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the project not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the project not exists
 
-        .. seealso:: :class:`datahub.models.Topics`
+        .. seealso:: :class:`tordatahub.models.Topics`
         """
         if not project_name:
             raise InvalidArgument('project name is empty')
@@ -131,11 +131,11 @@ class DataHub(object):
         """
         Create topic
 
-        :param topic: a object instance of :class:`datahub.models.Topic`
+        :param topic: a object instance of :class:`tordatahub.models.Topic`
         :return: none
         """
         if not isinstance(topic, Topic):
-            raise InvalidArgument('argument topic type must be datahub.models.Topic')
+            raise InvalidArgument('argument topic type must be tordatahub.models.Topic')
         yield self.restclient.post(restmodel=topic)
 
     @tornado.gen.coroutine
@@ -147,9 +147,9 @@ class DataHub(object):
         :param project_name: project name
         :return: topic object
         :rtype: :class:`datahub.models.Topic`
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the project or topic not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the project or topic not exists
 
-        .. seealso:: :class:`datahub.models.Topic`
+        .. seealso:: :class:`tordatahub.models.Topic`
         """
         if not name or not project_name:
             raise InvalidArgument('topic or project name is empty')
@@ -167,7 +167,7 @@ class DataHub(object):
         :param life_cycle: life cycle of topic
         :param comment: topic comment
         :return: none
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the project or topic not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the project or topic not exists
         """
         if 0 == life_cycle and '' == comment:
             return
@@ -184,7 +184,7 @@ class DataHub(object):
         :param name: topic name
         :param project_name: project name
         :return: none
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the project or topic not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the project or topic not exists
         """
         if not name or not project_name:
             raise InvalidArgument('topic or project name is empty')
@@ -203,7 +203,7 @@ class DataHub(object):
         :param timeout: -1 means it will be blocked until all shards state in ``active`` or ``closed``, else will be wait timeout seconds
         :return: if all shards ready
         :rtype: boolean
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the project or topic not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the project or topic not exists
         """
         if not topic_name or not project_name:
             raise InvalidArgument('topic or project name is empty')
@@ -235,9 +235,9 @@ class DataHub(object):
         :param topic_name: topic name
         :return: all shards
         :rtype: :class:`datahub.models.Shards`
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the project or topic not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the project or topic not exists
 
-        .. seealso:: :class:`datahub.models.Shards`
+        .. seealso:: :class:`tordatahub.models.Shards`
         """
         if not topic_name or not project_name:
             raise InvalidArgument('topic or project name is empty')
@@ -256,9 +256,9 @@ class DataHub(object):
         :param adj_shard_id: adjacent shard id
         :return: after merged shards
         :rtype: :class:`datahub.models.Shards`
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the shard not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the shard not exists
 
-        .. seealso:: :class:`datahub.models.Shards`
+        .. seealso:: :class:`tordatahub.models.Shards`
         """
         if not topic_name or not project_name:
             raise InvalidArgument('topic or project name is empty')
@@ -280,9 +280,9 @@ class DataHub(object):
         :param split_key: split key
         :return: after split shards
         :rtype: :class:`datahub.models.Shards`
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the shard not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the shard not exists
 
-        .. seealso:: :class:`datahub.models.Shards`
+        .. seealso:: :class:`tordatahub.models.Shards`
         """
         if not topic_name or not project_name:
             raise InvalidArgument('topic or project name is empty')
@@ -306,9 +306,9 @@ class DataHub(object):
         :param system_time: if type=CursorType.SYSTEM_TIME, it must be set
         :return: a cursor
         :rtype: :class:`datahub.models.Cursor`
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the shard not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the shard not exists
 
-        .. seealso:: :class:`datahub.models.CursorType`, :class:`datahub.models.Cursor`
+        .. seealso:: :class:`tordatahub.models.CursorType`, :class:`tordatahub.models.Cursor`
         """
         if not topic_name or not project_name:
             raise InvalidArgument('topic or project name is empty')
@@ -331,9 +331,9 @@ class DataHub(object):
         :param record_list: record list
         :return: failed record indeies
         :rtype: list
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the topic not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the topic not exists
 
-        .. seealso:: :class:`datahub.models.Record`
+        .. seealso:: :class:`tordatahub.models.Record`
         """
         if not topic_name or not project_name:
             raise InvalidArgument('topic or project name is empty')
@@ -349,19 +349,19 @@ class DataHub(object):
         """
         Get records from a topic
 
-        :param topic: a object instance of :class:`datahub.models.Topic`
+        :param topic: a object instance of :class:`tordatahub.models.Topic`
         :param shard_id: shard id
         :param cursor: the cursor
         :return: record list, record num and next cursor
         :rtype: tuple
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the topic not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the topic not exists
 
-        .. seealso:: :class:`datahub.models.Topic`, :class:`datahub.models.Cursor`
+        .. seealso:: :class:`tordatahub.models.Topic`, :class:`tordatahub.models.Cursor`
         """
         if not shard_id:
             raise InvalidArgument('shard id is empty')
         if not isinstance(topic, Topic):
-            raise InvalidArgument('argument topic type must be datahub.models.Topic')
+            raise InvalidArgument('argument topic type must be tordatahub.models.Topic')
         records = Records(project_name=topic.project_name, topic_name=topic.name, schema=topic.record_schema)
         records.shard_id = shard_id
         records.next_cursor = str(cursor)
@@ -379,9 +379,9 @@ class DataHub(object):
         :param shard_id: shard id
         :return: the shard metering info
         :rtype: :class:`datahub.models.MeteringInfo`
-        :raise: :class:`datahub.errors.NoSuchObjectException` if the topic not exists
+        :raise: :class:`tordatahub.errors.NoSuchObjectException` if the topic not exists
 
-        .. seealso:: :class:`datahub.models.MeteringInfo`
+        .. seealso:: :class:`tordatahub.models.MeteringInfo`
         """
         if not project_name or not topic_name:
             raise InvalidArgument('project or topic name is empty')
