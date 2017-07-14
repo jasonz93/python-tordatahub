@@ -134,7 +134,7 @@ class Bigint(DatahubPrimitive):
     def cast_value(self, value, data_type):
         self._can_cast_or_throw(value, data_type)
 
-        return long(value)
+        return int(value)
 
 # Double
 class Double(DatahubPrimitive):
@@ -205,7 +205,7 @@ class Timestamp(DatahubPrimitive):
 
     def cast_value(self, value, data_type):
         self._can_cast_or_throw(value, data_type)
-        return long(value)
+        return int(value)
 
 # Boolean
 class Boolean(DatahubPrimitive):
