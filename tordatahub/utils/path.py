@@ -47,12 +47,12 @@ else:
 # Pre-2.3 support.  Are unicode filenames supported?
 _base = str
 _getcwd = os.getcwd
-try:
-    if os.path.supports_unicode_filenames:
-        _base = unicode
-        _getcwd = os.getcwdu
-except AttributeError:
-    pass
+# try:
+#     if os.path.supports_unicode_filenames:
+#         _base = unicode
+#         _getcwd = os.getcwdu
+# except AttributeError:
+#     pass
 
 # Pre-2.3 workaround for booleans
 # try:
